@@ -4,7 +4,7 @@ const verify_token = "bill_test_messenger_bot"
 const PAGE_ACCESS_TOKEN = "EAAT7Au977CoBADsEeuN4LjXXgbMr10BdGAGKPo4DpSoeFbwXACUZCdzxgofojwqmwhkBJDiX5tzcuVQ77UB97YOrT3DrM90OQxGuiHo5KJ7tUS9At3ZA5QVZBba6eRhmeZAFNQ14Vu8ob8lRBPi2rbhlguNHreKJ0uw7xlanJwZDZD"
 
 app.get('/', function (req, res) {
-  res.send('Hello World!')
+  res.send('Hello World!aa')
 })
 
 app.listen(3256, function () {
@@ -25,7 +25,7 @@ app.get('/webhook', function(req, res) {
 //在這個應用程式範例中，我們會處理所有的回呼。在接收訊息時，我們會尋找 event.message 欄位，然後呼叫 receivedMessage 函式。
 app.post('/webhook', function (req, res) {
   var data = req.body;
-
+  console.log("data:", data)
   // Make sure this is a page subscription
   if (data.object === 'page') {
 
