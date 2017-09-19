@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const verify_token = "bill_test_messenger_bot"
+const PAGE_ACCESS_TOKEN = "EAAT7Au977CoBADsEeuN4LjXXgbMr10BdGAGKPo4DpSoeFbwXACUZCdzxgofojwqmwhkBJDiX5tzcuVQ77UB97YOrT3DrM90OQxGuiHo5KJ7tUS9At3ZA5QVZBba6eRhmeZAFNQ14Vu8ob8lRBPi2rbhlguNHreKJ0uw7xlanJwZDZD"
 
 app.get('/', function (req, res) {
   res.send('Hello World!')
@@ -103,7 +104,7 @@ function sendTextMessage(recipientId, messageText) {
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: verify_token },
+    qs: { access_token: PAGE_ACCESS_TOKEN },
     method: 'POST',
     json: messageData
 
