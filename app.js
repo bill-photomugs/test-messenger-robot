@@ -4,7 +4,7 @@ const verify_token = "bill_test_messenger_bot"
 const PAGE_ACCESS_TOKEN = "EAAT7Au977CoBADsEeuN4LjXXgbMr10BdGAGKPo4DpSoeFbwXACUZCdzxgofojwqmwhkBJDiX5tzcuVQ77UB97YOrT3DrM90OQxGuiHo5KJ7tUS9At3ZA5QVZBba6eRhmeZAFNQ14Vu8ob8lRBPi2rbhlguNHreKJ0uw7xlanJwZDZD"
 
 app.get('/', function (req, res) {
-  res.send('Hello World!aa')
+  res.send('Hello World!')
 })
 
 app.listen(3256, function () {
@@ -51,6 +51,10 @@ app.post('/webhook', function (req, res) {
     // will time out and we will keep trying to resend.
     res.sendStatus(200);
   }
+  else{
+    res.sendStatus(403)
+  }
+  
 });
 
 //在 receivedMessage 中，我們設計的邏輯是將訊息傳回給用戶。預設行為是回送已接收的訊息。
