@@ -30,7 +30,7 @@ app.get('/webhook', function(req, res) {
 
 // !!針對發信者ID即可透過POST回應訊息。要注意的是當您的應用程式未發布之前只能用管理者帳號進行測試或是手動加入測試帳號。!!
 // 在這個應用程式範例中，我們會處理所有的回呼。在接收訊息時，我們會尋找 event.message 欄位，然後呼叫 receivedMessage 函式。
-app.post('/webhook ', function (req, res) {
+app.post('/webhook', function (req, res) {
   var data = req.body;
   console.log("data:", data)
   // Make sure this is a page subscription
