@@ -3,6 +3,11 @@ const app = express()
 const verify_token = "bill_test_messenger_bot"
 const PAGE_ACCESS_TOKEN = "EAAT7Au977CoBADsEeuN4LjXXgbMr10BdGAGKPo4DpSoeFbwXACUZCdzxgofojwqmwhkBJDiX5tzcuVQ77UB97YOrT3DrM90OQxGuiHo5KJ7tUS9At3ZA5QVZBba6eRhmeZAFNQ14Vu8ob8lRBPi2rbhlguNHreKJ0uw7xlanJwZDZD"
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
 app.get('/', function (req, res) {
   res.send('Hello World!')
 })
@@ -22,8 +27,9 @@ app.get('/webhook', function(req, res) {
   }  
 });
 
-//在這個應用程式範例中，我們會處理所有的回呼。在接收訊息時，我們會尋找 event.message 欄位，然後呼叫 receivedMessage 函式。
-app.post('/webhook', function (req, res) {
+// !!針對發信者ID即可透過POST回應訊息。要注意的是當您的應用程式未發布之前只能用管理者帳號進行測試或是手動加入測試帳號。!!
+// 在這個應用程式範例中，我們會處理所有的回呼。在接收訊息時，我們會尋找 event.message 欄位，然後呼叫 receivedMessage 函式。
+app.post('/webhook ', function (req, res) {
   var data = req.body;
   console.log("data:", data)
   // Make sure this is a page subscription
@@ -57,7 +63,7 @@ app.post('/webhook', function (req, res) {
   
 });
 
-//在 receivedMessage 中，我們設計的邏輯是將訊息傳回給用戶。預設行為是回送已接收的訊息。
+// 在 receivedMessage 中，我們設計的邏輯是將訊息傳回給用戶。預設行為是回送已接收的訊息。
 function receivedMessage(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
@@ -90,7 +96,7 @@ function receivedMessage(event) {
   }
 }
 
-//sendTextMessage 會編排要求中資料的格式：
+// sendTextMessage 會編排要求中資料的格式：
 function sendTextMessage(recipientId, messageText) {
   var messageData = {
     recipient: {
@@ -104,7 +110,7 @@ function sendTextMessage(recipientId, messageText) {
   callSendAPI(messageData);
 }
 
-//callSendAPI 會呼叫「傳送 API」：
+// callSendAPI 會呼叫「傳送 API」：
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
@@ -127,7 +133,7 @@ function callSendAPI(messageData) {
   });  
 }
 
-//發送結構化訊息: 對於特定關鍵字，receivedMessage 還會傳回其他類型的訊息。如果您發送訊息「generic」，其會呼叫 sendGenericMessage，而傳回使用一般型範本的結構化訊息。
+// 發送結構化訊息: 對於特定關鍵字，receivedMessage 還會傳回其他類型的訊息。如果您發送訊息「generic」，其會呼叫 sendGenericMessage，而傳回使用一般型範本的結構化訊息。
 function sendGenericMessage(recipientId) {
   var messageData = {
     recipient: {
