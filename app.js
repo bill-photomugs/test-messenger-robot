@@ -94,7 +94,10 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    let imageUrl = messageAttachments.payload.url;
+    // sendTextMessage(senderID, "Message with attachment received");
+    sendTextMessage(senderID, imageUrl);
+    
   }
 }
 
@@ -179,6 +182,6 @@ function sendGenericMessage(recipientId) {
       }
     }
   };  
-
+  
   callSendAPI(messageData);
 }
