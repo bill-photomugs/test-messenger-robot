@@ -63,7 +63,7 @@ module.exports = class Parser{
           "y": product.y,
           "width": product.width,
           "height": product.height,
-          "src": "https://scontent.ftpe7-4.fna.fbcdn.net/v/t35.0-12/21951808_120585718647069_601553202_o.jpg?oh=4eeb81342d89b52f9d312fa56676e755&oe=59CB9DF5",
+          "src": this.image,
           "rotation": 0,
           "type": "image"
       }],
