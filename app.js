@@ -4,6 +4,8 @@ const verify_token = "bill_test_messenger_bot"
 const PAGE_ACCESS_TOKEN = "EAAT7Au977CoBADsEeuN4LjXXgbMr10BdGAGKPo4DpSoeFbwXACUZCdzxgofojwqmwhkBJDiX5tzcuVQ77UB97YOrT3DrM90OQxGuiHo5KJ7tUS9At3ZA5QVZBba6eRhmeZAFNQ14Vu8ob8lRBPi2rbhlguNHreKJ0uw7xlanJwZDZD"
 var bodyParser = require('body-parser')
 var request    = require('request');
+var Parser     = require('./controller/parser.js');
+var parser     = new Parser();
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -11,11 +13,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
-  res.send('Hello World!')
+  res.send("Facebook chatbot work!")
+  // res.send(testParser())
+  // res.send(testParser());
 })
 
 app.listen(3256, function () {
-  console.log('Example app listening on port 3256!')
+  console.log('Example app listening on port 3256!');
+  
 })
 
 app.get('/webhook', function(req, res) {
@@ -94,10 +99,11 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-    let imageUrl = messageAttachments.payload.url;
+    let imageUrl = [];
     // sendTextMessage(senderID, "Message with attachment received");
-    sendTextMessage(senderID, imageUrl);
-    
+    sendTextMessage(senderID, "Awesome photo! Hang tight while I do my thing...");
+    sendProductMessage(senderID, messageAttachments)
+        
   }
 }
 
@@ -137,6 +143,75 @@ function callSendAPI(messageData) {
     }
   });  
 }
+
+// 接收到圖片,回覆圖片
+function sendProductMessage(recipientId, attachment) {
+  let imageUrl = attachment[0].payload.url;
+  let renderedImages = parse.renderImage(imageUrl);
+  let elements = parse.setMessageElements();
+  console.log("elements: ", elements)
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: elements
+        }
+      }
+    }
+  };  
+  
+  // template
+  // var messageData = {
+  //   recipient: {
+  //     id: recipientId
+  //   },
+  //   message: {
+  //     attachment: {
+  //       type: "template",
+  //       payload: {
+  //         template_type: "generic",
+  //         elements: [{
+  //           title: "rift",
+  //           subtitle: "Next-generation virtual reality",
+  //           item_url: imageUrl,               
+  //           image_url: imageUrl,
+  //           buttons: [{
+  //             type: "web_url",
+  //             url: "https://www.oculus.com/en-us/rift/",
+  //             title: "Open Web URL"
+  //           }, {
+  //             type: "postback",
+  //             title: "Call Postback",
+  //             payload: "Payload for first bubble",
+  //           }],
+  //         }, {
+  //           title: "touch",
+  //           subtitle: "Your Hands, Now in VR",
+  //           item_url: "https://www.oculus.com/en-us/touch/",               
+  //           image_url: "http://messengerdemo.parseapp.com/img/touch.png",
+  //           buttons: [{
+  //             type: "web_url",
+  //             url: "https://www.oculus.com/en-us/touch/",
+  //             title: "Open Web URL"
+  //           }, {
+  //             type: "postback",
+  //             title: "Call Postback",
+  //             payload: "Payload for second bubble",
+  //           }]
+  //         }]
+  //       }
+  //     }
+  //   }
+  // };  
+  
+  callSendAPI(messageData);
+}
+
 
 // 發送結構化訊息: 對於特定關鍵字，receivedMessage 還會傳回其他類型的訊息。如果您發送訊息「generic」，其會呼叫 sendGenericMessage，而傳回使用一般型範本的結構化訊息。
 function sendGenericMessage(recipientId) {
@@ -184,4 +259,28 @@ function sendGenericMessage(recipientId) {
   };  
   
   callSendAPI(messageData);
+}
+
+//for test in local
+function testParser(){
+  let imageUrl = "https://scontent.ftpe7-4.fna.fbcdn.net/v/t35.0-12/21951808_120585718647069_601553202_o.jpg?oh=4eeb81342d89b52f9d312fa56676e755&oe=59CB9DF5";
+  let renderedImages = parser.renderImage(imageUrl);
+  let elements = parser.setMessageElements();
+  let recipientId = 123
+  console.log("elements: ", elements)
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: elements
+        }
+      }
+    }
+  };  
+  return messageData;
 }
