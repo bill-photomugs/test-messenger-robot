@@ -4,7 +4,7 @@ const verify_token = "bill_test_messenger_bot"
 const PAGE_ACCESS_TOKEN = "EAAT7Au977CoBADsEeuN4LjXXgbMr10BdGAGKPo4DpSoeFbwXACUZCdzxgofojwqmwhkBJDiX5tzcuVQ77UB97YOrT3DrM90OQxGuiHo5KJ7tUS9At3ZA5QVZBba6eRhmeZAFNQ14Vu8ob8lRBPi2rbhlguNHreKJ0uw7xlanJwZDZD"
 var bodyParser = require('body-parser')
 var request    = require('request');
-var Parser     = require('./controller/parser.js');
+var Parser     = require('./config/parser.js');
 var parser     = new Parser();
 
 // parse application/x-www-form-urlencoded

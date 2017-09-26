@@ -94,7 +94,7 @@ module.exports = class Parser{
         buttons: [{
           type: "web_url",
           url: product.url,
-          title: "Open Web URL"
+          title: "View Product Details"
         }, {
           type: "postback",
           title: "Call Postback",
