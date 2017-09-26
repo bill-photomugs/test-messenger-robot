@@ -147,8 +147,8 @@ function callSendAPI(messageData) {
 // 接收到圖片,回覆圖片
 function sendProductMessage(recipientId, attachment) {
   let imageUrl = attachment[0].payload.url;
-  let renderedImages = parse.renderImage(imageUrl);
-  let elements = parse.setMessageElements();
+  let renderedImages = parser.renderImage(imageUrl);
+  let elements = parser.setMessageElements();
   console.log("elements: ", elements)
   var messageData = {
     recipient: {
